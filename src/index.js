@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
+import * as firebase from 'firebase';
 
 // Initialize Firebase
 var config = {
@@ -11,6 +12,12 @@ var config = {
   storageBucket: "",
 };
 firebase.initializeApp(config);
+
+const auth = firebase.auth();
+
+let signedIn = auth.signInWithEmailAndPassword("thomasroberthorrobin@gmail.com","Waiopehu01");
+
+signedIn.then(() => console.log("signed in"));
 
 ReactDOM.render(
   <App />,
