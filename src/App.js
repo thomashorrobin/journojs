@@ -8,9 +8,6 @@ import * as firebase from 'firebase';
 class App extends Component {
   constructor(){
     super();
-    // let journalists = [];
-    // journalists.push({ id : shortid.generate(), firstName : "Thomas", lastName : "Horrobin" });
-    // journalists.push({ id : shortid.generate(), firstName : "Blake", lastName : "Crayton-Brown" });
     this.state = {
       journalists : [],
       orgs : []
