@@ -12,22 +12,22 @@ class Layout extends Component {
     }
   }
 
-componentDidMount(){
-  firebase.database().ref().on('value', snap => {
-    var journalists = [];
-    var orgs = [];
-    const obj = snap.val();
-    Object.keys(obj.journalists).forEach(j => {
-      obj.journalists[j].id = j;
-      journalists.push(obj.journalists[j]);
+  componentDidMount(){
+    firebase.database().ref().on('value', snap => {
+      var journalists = [];
+      var orgs = [];
+      const obj = snap.val();
+      Object.keys(obj.journalists).forEach(j => {
+        obj.journalists[j].id = j;
+        journalists.push(obj.journalists[j]);
+      });
+      Object.keys(obj.newsOrganisations).forEach(o => {
+        obj.newsOrganisations[o].id = o;
+        orgs.push(obj.newsOrganisations[o]);
+      });
+      this.setState({journalists, orgs});
     });
-    Object.keys(obj.newsOrganisations).forEach(o => {
-      obj.newsOrganisations[o].id = o;
-      orgs.push(obj.newsOrganisations[o]);
-    });
-    this.setState({journalists, orgs});
-  });
-}
+  }
 
   render() {
     return (
