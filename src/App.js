@@ -1,50 +1,53 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import JournalistIndex from './components/journalists/index';
-import NewsOrganisationIndex from './components/newsOrganisations/index';
+import Layout from './Layout';
 import * as firebase from 'firebase';
 
 class App extends Component {
   constructor(){
     super();
+    const auth = firebase.auth();
     this.state = {
-      journalists : [],
-      orgs : []
+      loggedOn : false
     }
+    auth.onAuthStateChanged(firebaseUser => {
+      if (firebaseUser == null) {
+        this.setState({
+      loggedOn : false
+        });
+      } else {
+        this.setState({
+      loggedOn : true
+        });
+      }
+    });
   }
 
-componentDidMount(){
-  firebase.database().ref().on('value', snap => {
-    var journalists = [];
-    var orgs = [];
-    const obj = snap.val();
-    Object.keys(obj.journalists).forEach(j => {
-      obj.journalists[j].id = j;
-      journalists.push(obj.journalists[j]);
-    });
-    Object.keys(obj.newsOrganisations).forEach(o => {
-      obj.newsOrganisations[o].id = o;
-      orgs.push(obj.newsOrganisations[o]);
-    });
-    this.setState({journalists, orgs});
-  });
-}
+  signout(){
+    firebase.auth().signOut();
+  }
 
   render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+    if (this.state.loggedOn) {
+      return (
+        <div className="App">
+          <div className="App-header">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h2>Welcome to React</h2>
+            <button onClick={this.signout.bind(this)}>Sign out</button>
+          </div>
+          <p className="App-intro">
+            To get started, edit <code>src/App.js</code> and save to reload.
+          </p>
+          <Layout />
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <JournalistIndex journalists={this.state.journalists} />
-        <NewsOrganisationIndex orgs={this.state.orgs} />
-      </div>
-    );
+      );
+    } else {
+      return(
+        <h3>Please Clap</h3>
+      );
+    }
   }
 }
 
