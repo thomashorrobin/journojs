@@ -34,7 +34,7 @@ class App extends Component {
         <div className="App">
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
-            <h2>Welcome to React</h2>
+            <h2>journo js</h2>
             <button onClick={this.signout.bind(this)}>Sign out</button>
           </div>
           <p className="App-intro">
